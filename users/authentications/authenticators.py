@@ -13,7 +13,7 @@ API_KEY_HEADER = APIKeyHeader(name='Authorization')
 
 
 async def authenticate(session: AsyncSession, login_user: LoginUser) -> Optional[User]:
-    user = await User.get(session, email=login_user.email)
+    user = await User.get(session, email=login_user.email, is_active=True)
     if user is None:
         return
 

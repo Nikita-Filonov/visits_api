@@ -2,7 +2,8 @@
 https://habr.com/ru/post/580866/
 
 uvicorn main:app --host 0.0.0.0 --port 8000
-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
+
+https://github.com/fastapi-admin/fastapi-admin
 """
 
 from fastapi import FastAPI

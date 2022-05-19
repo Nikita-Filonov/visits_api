@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class CreateVisit(BaseModel):
     when: datetime
     user_id: int
+    pair_id: int
 
 
 class DefaultVisit(CreateVisit):
