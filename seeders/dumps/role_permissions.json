@@ -38,5 +38,15 @@
     "id": 8,
     "permission_id": 10,
     "role_id": 2
+  },
+  {
+    "id": 9,
+    "permission_id": 11,
+    "role_id": 2
+  },
+  {
+    "id": 10,
+    "permission_id": 12,
+    "role_id": 2
   }
 ]
