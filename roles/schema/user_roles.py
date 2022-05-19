@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class CreateUserRole(BaseModel):
-    user_id: int
-    role_id: int
+    user_id: int = Field(alias='userId')
+    role_id: int = Field(alias='roleId')
 
 
 class DefaultUserRole(CreateUserRole):
