@@ -19,7 +19,7 @@ POSTGRES_SERVER = 'visits_api_db'
 if DEBUG:
     DATABASE_URL = f"{DRIVER}://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
 else:
-    DATABASE_URL = os.environ.get('DATABASE_URL')
+    DATABASE_URL = os.environ.get('DATABASE_URL').replace('postgres', DRIVER)
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
