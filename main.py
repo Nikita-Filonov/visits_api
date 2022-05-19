@@ -4,6 +4,7 @@ https://habr.com/ru/post/580866/
 uvicorn main:app --host 0.0.0.0 --port 8000
 
 https://github.com/fastapi-admin/fastapi-admin
+https://namespaceit.com/blog/items-could-not-be-retrieved-internal-server-error-heroku-and-github
 
 Token 6bd1256d1fa34de94bbaea552dff196d3ada30ff
 """

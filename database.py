@@ -1,4 +1,5 @@
 import logging
+import os
 
 from sqlalchemy import MetaData
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
@@ -15,6 +16,8 @@ POSTGRES_PASSWORD = 'postgres' if DEBUG else 'vtngjwfut'  # vtngjwfut
 POSTGRES_PORT = 5432
 POSTGRES_SERVER = 'visits_api_db' if DEBUG else 'localhost'
 DATABASE_URL = f"{DRIVER}://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+
+print(os.environ.get('DATABASE_URL'), 23455555)
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
