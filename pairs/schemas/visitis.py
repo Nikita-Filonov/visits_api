@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 
 class CreateVisit(BaseModel):
-    when: str
+    when: datetime
     user_id: int
 
 
