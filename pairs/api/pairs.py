@@ -17,7 +17,7 @@ async def create_pair_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
-    if await is_action_allowed(['Create.Pair'], session, user):
+    if await is_action_allowed([Pair.CREATE], session, user):
         return await Pair.create(session, **create_pair.dict())
 
     return Response(status_code=status.HTTP_403_FORBIDDEN)
