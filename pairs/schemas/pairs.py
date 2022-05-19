@@ -1,4 +1,7 @@
-from pydantic import BaseModel
+from datetime import time
+from typing import Optional
+
+from pydantic import BaseModel, Field
 
 
 class CreatePair(BaseModel):
@@ -7,6 +10,9 @@ class CreatePair(BaseModel):
 
 class DefaultPair(CreatePair):
     id: int
+    room: Optional[str]
+    start_at: Optional[time] = Field(alias='startAt')
+    end_at: Optional[time] = Field(alias='endAt')
 
     class Config:
         orm_mode = True

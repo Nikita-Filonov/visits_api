@@ -6,6 +6,7 @@ from models.model import BaseModel
 class Visit(BaseModel):
     __tablename__ = 'visit'
 
+    VIEW = 'View.Visit'
     CREATE = 'Create.Visit'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

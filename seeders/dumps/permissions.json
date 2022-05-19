@@ -18,5 +18,9 @@
   {
     "id": 5,
     "scope": "Create.Visit"
+  },
+  {
+    "id": 6,
+    "scope": "View.Visit"
   }
 ]
