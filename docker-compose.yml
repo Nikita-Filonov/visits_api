@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  visits_api_server:
+    build: .
+    command: uvicorn main:app --reload --host 0.0.0.0 --port=8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+  visits_api_db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+
+  visits_api_pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5454:5454/tcp
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mydomain.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
+      - PGADMIN_LISTEN_PORT=5454
