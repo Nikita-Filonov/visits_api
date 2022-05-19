@@ -9,6 +9,11 @@ class CreateUserPair(BaseModel):
     pair_id: int = Field(alias='pairId')
 
 
+class CreateGroupUserPair(BaseModel):
+    group_id: int = Field(alias='groupId')
+    pair_id: int = Field(alias='pairId')
+
+
 class DefaultUserPair(BaseModel):
     id: int
     user: DefaultUser

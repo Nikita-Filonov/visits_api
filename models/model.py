@@ -29,6 +29,7 @@ class BaseModel(Base):
             session: AsyncSession,
             select_values: Union[list, tuple, None] = None,
             order_by: Union[list, tuple, None] = None,
+            clause_filter=None,
             slice_query: Union[list, tuple, None] = None,
             load: Union[list, tuple, None] = None,
             **kwargs
@@ -43,6 +44,9 @@ class BaseModel(Base):
         if load:
             for table in load:
                 query = query.options(selectinload(table))
+
+        if clause_filter:
+            query = query.filter(*clause_filter)
 
         result = await session.execute(query)
         return result.scalars().all()
