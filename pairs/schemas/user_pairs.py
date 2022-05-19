@@ -5,7 +5,7 @@ from users.schemas.users import DefaultUser
 
 
 class CreateUserPair(BaseModel):
-    user_id: int = Field(alias='userId')
+    email: str
     pair_id: int = Field(alias='pairId')
 
 

@@ -33,3 +33,9 @@ class DefaultUser(BaseModel):
 class ConfirmUser(BaseModel):
     email: str
     code: Optional[str]
+
+
+class UserNotFound(BaseModel):
+    level: str = 'error'
+    message: str = 'User with email "{0}" not found'
+    email: str

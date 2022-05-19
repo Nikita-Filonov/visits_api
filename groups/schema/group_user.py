@@ -17,9 +17,3 @@ class DefaultGroupUser(BaseModel):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-
-
-class UserNotFound(BaseModel):
-    level: str = 'error'
-    message: str = 'User with email "{0}" not found'
-    email: str

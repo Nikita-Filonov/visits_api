@@ -1,14 +1,14 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, Response, status, Query
-from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
-from groups.schema.group_user import CreateGroupUser, UserNotFound, DefaultGroupUser
-from models import User, GroupUser
+from groups.schema.group_user import CreateGroupUser, DefaultGroupUser
+from models import GroupUser
 from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
+from users.controllers.users import safely_get_user
 from users.schemas.users import DefaultUser
 
 group_users_router = APIRouter(prefix="/group-users")
@@ -35,12 +35,7 @@ async def create_group_user_view(
     if not await is_action_allowed([GroupUser.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    user = await User.get(session, email=create_group_user.email)
-    if user is None:
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content=UserNotFound(email=create_group_user.email).dict()
-        )
+    user = await safely_get_user(session, email=create_group_user.email)
 
     group_user = await GroupUser.create(session, group_id=create_group_user.group_id, user_id=user.id)
     return await GroupUser.get(session, id=group_user.id, load=(GroupUser.user, GroupUser.group))

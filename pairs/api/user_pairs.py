@@ -8,6 +8,7 @@ from models import UserPair
 from pairs.schemas.user_pairs import CreateUserPair, DefaultUserPair
 from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
+from users.controllers.users import safely_get_user
 from users.schemas.users import DefaultUser
 
 user_pairs_router = APIRouter(prefix="/user-pairs")
@@ -31,8 +32,10 @@ async def create_user_pair_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
-    if await is_action_allowed([UserPair.CREATE], session, user):
-        user_pair = await UserPair.create(session, **create_user_pair.dict())
-        return await UserPair.get(session, id=user_pair.id, load=(UserPair.user, UserPair.pair))
+    if not await is_action_allowed([UserPair.CREATE], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    return Response(status_code=status.HTTP_403_FORBIDDEN)
+    user = await safely_get_user(session, email=create_user_pair.email)
+
+    user_pair = await UserPair.create(session, user_id=user.id, pair_id=create_user_pair.pair_id)
+    return await UserPair.get(session, id=user_pair.id, load=(UserPair.user, UserPair.pair))
