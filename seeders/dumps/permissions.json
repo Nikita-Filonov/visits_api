@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "scope": "Create.Pair"
+  },
+  {
+    "id": 2,
+    "scope": "Update.Pair"
+  },
+  {
+    "id": 3,
+    "scope": "Delete.Pair"
+  },
+  {
+    "id": 4,
+    "scope": "View.Pair"
+  }
+]
