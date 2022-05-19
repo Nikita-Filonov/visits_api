@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from pairs.api.pairs import pairs_router
+from pairs.api.visits import visits_router
 from roles.api.roles import roles_router
 from roles.api.user_roles import user_roles_router
 from users.api.token import token_router
@@ -36,4 +37,5 @@ app.include_router(token_router, prefix='/api/v1')
 app.include_router(users_router, prefix='/api/v1')
 app.include_router(pairs_router, prefix='/api/v1')
 app.include_router(roles_router, prefix='/api/v1')
+app.include_router(visits_router, prefix='/api/v1')
 app.include_router(user_roles_router, prefix='/api/v1')

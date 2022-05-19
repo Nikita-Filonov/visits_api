@@ -9,5 +9,5 @@ pairs_router = APIRouter(prefix="/pairs")
 
 
 @pairs_router.post('', tags=['pairs'], response_model=DefaultPair)
-async def create_role_view(create_role: CreatePair, session: AsyncSession = Depends(get_session)):
-    return await Pair.create(session, **create_role.dict())
+async def create_pair_view(create_pair: CreatePair, session: AsyncSession = Depends(get_session)):
+    return await Pair.create(session, **create_pair.dict())
