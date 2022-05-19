@@ -13,7 +13,7 @@ POSTGRES_DB = 'postgres' if DEBUG else 'automation_api'  # automation_api
 POSTGRES_USER = 'postgres' if DEBUG else 'say_what'  # say_what
 POSTGRES_PASSWORD = 'postgres' if DEBUG else 'vtngjwfut'  # vtngjwfut
 POSTGRES_PORT = 5432
-POSTGRES_SERVER = 'localhost'
+POSTGRES_SERVER = 'visits_api_db' if DEBUG else 'localhost'
 DATABASE_URL = f"{DRIVER}://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)

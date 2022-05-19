@@ -2,7 +2,7 @@ from pathlib import Path
 
 from fastapi_mail import ConnectionConfig
 
-DEBUG = False
+DEBUG = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

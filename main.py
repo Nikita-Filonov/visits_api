@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from courses.api.courses import courses_router
+from roles.api.courses import courses_router
 from lessons.api.lessons import lessons_router
 from users.api.token import token_router
 from users.api.users import users_router
