@@ -4,6 +4,8 @@ https://habr.com/ru/post/580866/
 uvicorn main:app --host 0.0.0.0 --port 8000
 
 https://github.com/fastapi-admin/fastapi-admin
+
+Token 6bd1256d1fa34de94bbaea552dff196d3ada30ff
 """
 
 from fastapi import FastAPI
@@ -12,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 
 from pairs.api.pairs import pairs_router
 from pairs.api.visits import visits_router
+from permissions.api.permissions import permissions_router
 from roles.api.roles import roles_router
 from roles.api.user_roles import user_roles_router
 from users.api.token import token_router
@@ -40,3 +43,4 @@ app.include_router(pairs_router, prefix='/api/v1')
 app.include_router(roles_router, prefix='/api/v1')
 app.include_router(visits_router, prefix='/api/v1')
 app.include_router(user_roles_router, prefix='/api/v1')
+app.include_router(permissions_router, prefix='/api/v1')
