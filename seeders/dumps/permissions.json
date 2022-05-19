@@ -22,5 +22,13 @@
   {
     "id": 6,
     "scope": "View.Visit"
+  },
+  {
+    "id": 7,
+    "scope": "Create.UserPair"
+  },
+  {
+    "id": 8,
+    "scope": "View.UserPair"
   }
 ]
