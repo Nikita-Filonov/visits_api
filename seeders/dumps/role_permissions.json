@@ -13,5 +13,10 @@
     "id": 3,
     "permission_id": 6,
     "role_id": 2
+  },
+  {
+    "id": 4,
+    "permission_id": 4,
+    "role_id": 2
   }
 ]

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Time
+from sqlalchemy import Column, Integer, String, Time, ForeignKey
 
 from models.model import BaseModel
 
@@ -6,6 +6,7 @@ from models.model import BaseModel
 class Pair(BaseModel):
     __tablename__ = 'pair'
 
+    VIEW = 'View.Pair'
     CREATE = 'Create.Pair'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -13,3 +14,4 @@ class Pair(BaseModel):
     room = Column(String(250), comment='Room', default=None)
     start_at = Column(Time, default=None, comment='When the pair starts')
     end_at = Column(Time, default=None, comment='When the pair ends')
+    created_by_user_id = Column(Integer, ForeignKey('user.id'), default=None, comment='Who has created the pair')

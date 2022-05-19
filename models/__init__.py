@@ -1,4 +1,5 @@
 from models.pairs.pair import Pair
+from models.pairs.user_pair import UserPair
 from models.pairs.visit import Visit
 from models.permissions.permission import Permission
 from models.permissions.role_permission import RolePermission
