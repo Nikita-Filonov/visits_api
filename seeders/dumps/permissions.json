@@ -30,5 +30,13 @@
   {
     "id": 8,
     "scope": "View.UserPair"
+  },
+  {
+    "id": 9,
+    "scope": "View.Group"
+  },
+  {
+    "id": 10,
+    "scope": "Create.Group"
   }
 ]
