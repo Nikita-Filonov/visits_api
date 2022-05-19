@@ -10,14 +10,16 @@ from settings import DEBUG
 logger = logging.getLogger(__name__)
 
 DRIVER = 'postgresql+asyncpg'
-POSTGRES_DB = 'postgres' if DEBUG else 'automation_api'  # automation_api
-POSTGRES_USER = 'postgres' if DEBUG else 'say_what'  # say_what
-POSTGRES_PASSWORD = 'postgres' if DEBUG else 'vtngjwfut'  # vtngjwfut
+POSTGRES_DB = 'postgres'
+POSTGRES_USER = 'postgres'
+POSTGRES_PASSWORD = 'postgres'
 POSTGRES_PORT = 5432
-POSTGRES_SERVER = 'visits_api_db' if DEBUG else 'localhost'
-DATABASE_URL = f"{DRIVER}://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+POSTGRES_SERVER = 'visits_api_db'
 
-print(os.environ.get('DATABASE_URL'), 23455555)
+if DEBUG:
+    DATABASE_URL = f"{DRIVER}://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}:{POSTGRES_PORT}/{POSTGRES_DB}"
+else:
+    DATABASE_URL = os.environ.get('DATABASE_URL')
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 
