@@ -1,3 +1,5 @@
+from models.groups.group import Group
+from models.groups.group_user import GroupUser
 from models.pairs.pair import Pair
 from models.pairs.user_pair import UserPair
 from models.pairs.visit import Visit
