@@ -9,8 +9,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
-from roles.api.courses import courses_router
-from lessons.api.lessons import lessons_router
+from roles.api.roles import roles_router
+from roles.api.user_roles import user_roles_router
 from users.api.token import token_router
 from users.api.users import users_router
 
@@ -33,5 +33,5 @@ app.add_middleware(
 
 app.include_router(token_router, prefix='/api/v1')
 app.include_router(users_router, prefix='/api/v1')
-app.include_router(courses_router, prefix='/api/v1')
-app.include_router(lessons_router, prefix='/api/v1')
+app.include_router(roles_router, prefix='/api/v1')
+app.include_router(user_roles_router, prefix='/api/v1')
