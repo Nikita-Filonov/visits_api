@@ -14,5 +14,9 @@
   {
     "id": 4,
     "scope": "View.Pair"
+  },
+  {
+    "id": 5,
+    "scope": "Create.Visit"
   }
 ]
