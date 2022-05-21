@@ -1,6 +1,9 @@
+from datetime import datetime, timedelta
 from enum import Enum as LibEnum
+from typing import Optional
 
 from sqlalchemy import Column, Integer, DateTime, func, ForeignKey
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.model import BaseModel
 
@@ -22,3 +25,16 @@ class Visit(BaseModel):
     when = Column(DateTime(timezone=True), server_default=func.now())
     user_id = Column(Integer, ForeignKey('user.id'), comment='User')
     pair_id = Column(Integer, ForeignKey('pair.id'), comment='Pair')
+
+    @classmethod
+    async def get_to_day_visit(cls, session: AsyncSession, user_id: int, pair_id: int) -> Optional['Visit']:
+        today = datetime.now()
+        start = today.replace(hour=0, minute=0, second=0, microsecond=0)
+        end = start + timedelta(days=1)
+
+        return await Visit.get(
+            session,
+            user_id=user_id,
+            pair_id=pair_id,
+            clause_filter=(Visit.when >= start, Visit.when <= end)
+        )

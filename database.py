@@ -21,7 +21,7 @@ if DEBUG:
 else:
     DATABASE_URL = os.environ.get('DATABASE_URL').replace('postgres', DRIVER)
 
-engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+engine = create_async_engine(DATABASE_URL, echo=DEBUG, future=True)
 
 async_session = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 Base = declarative_base()

@@ -41,7 +41,13 @@ async def create_visit_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
-    if await is_action_allowed([Visit.CREATE], session, user):
+    if not await is_action_allowed([Visit.CREATE], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    visit = await Visit.get_to_day_visit(session, user_id=create_visit.user_id, pair_id=create_visit.pair_id)
+
+    if visit is None:
         return await Visit.create(session, **create_visit.dict())
 
-    return Response(status_code=status.HTTP_403_FORBIDDEN)
+    await visit.update(session, entity_id=visit.id, **create_visit.dict(exclude_unset=True))
+    return visit
