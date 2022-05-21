@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_session
 from models import UserPair, GroupUser
 from pairs.schemas.user_pairs import CreateUserPair, DefaultUserPair, CreateGroupUserPair
+from pairs.serializers.user_pairs import serialize_user_pairs
 from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
 from users.controllers.users import safely_get_user
@@ -21,7 +22,8 @@ async def get_user_pairs_view(
         user: DefaultUser = Depends(is_user_authenticated)
 ):
     if await is_action_allowed([UserPair.VIEW], session, user):
-        return await UserPair.filter(session, pair_id=pair_id, load=(UserPair.user, UserPair.pair))
+        user_pairs = await UserPair.filter(session, pair_id=pair_id, load=(UserPair.user, UserPair.pair))
+        return await serialize_user_pairs(session, user_pairs)
 
     return Response(status_code=status.HTTP_403_FORBIDDEN)
 

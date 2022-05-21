@@ -13,12 +13,21 @@ class BaseModel(Base):
     __abstract__ = True
 
     @classmethod
-    async def get(cls, session: AsyncSession, load: Union[list, tuple, None] = None, **kwargs) -> Optional['BaseModel']:
+    async def get(
+            cls,
+            session: AsyncSession,
+            clause_filter=None,
+            load: Union[list, tuple, None] = None,
+            **kwargs
+    ) -> Optional['BaseModel']:
         query = select(cls).filter_by(**kwargs)
 
         if load:
             for table in load:
                 query = query.options(selectinload(table))
+
+        if clause_filter:
+            query = query.filter(*clause_filter)
 
         result = await session.execute(query)
         return result.scalars().first()

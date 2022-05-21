@@ -1,6 +1,9 @@
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 from pairs.schemas.pairs import DefaultPair
+from pairs.schemas.visitis import DefaultVisit
 from users.schemas.users import DefaultUser
 
 
@@ -18,6 +21,7 @@ class DefaultUserPair(BaseModel):
     id: int
     user: DefaultUser
     pair: DefaultPair
+    visit: Optional[DefaultVisit]
 
     class Config:
         orm_mode = True
