@@ -5,8 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
 from models import Pair
+from models.roles.role import Roles
+from pairs.controllers.pairs import get_learner_pairs
 from pairs.schemas.pairs import CreatePair, DefaultPair
-from permissions.controllers.permissions import is_action_allowed
+from permissions.controllers.permissions import is_action_allowed, get_roles
 from users.authentications.authenticators import is_user_authenticated
 from users.schemas.users import DefaultUser
 
@@ -18,10 +20,17 @@ async def get_pairs_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
-    if await is_action_allowed([Pair.VIEW], session, user):
+    if not await is_action_allowed([Pair.VIEW], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    roles = [role.name for role in await get_roles(session, user)]
+    if Roles.INSTRUCTOR.value in roles:
         return await Pair.filter(session, created_by_user_id=user.id)
 
-    return Response(status_code=status.HTTP_403_FORBIDDEN)
+    if Roles.LEARNER.value in roles:
+        return await get_learner_pairs(session, user_id=user.id)
+
+    return []
 
 
 @pairs_router.get('/me', tags=['pairs'], response_model=List[DefaultPair])

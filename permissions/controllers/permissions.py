@@ -7,11 +7,15 @@ from models import Role, UserRole, Permission, RolePermission
 from users.schemas.users import DefaultUser
 
 
-async def get_my_permissions(session: AsyncSession, user: DefaultUser) -> List[Permission]:
+async def get_roles(session: AsyncSession, user: DefaultUser) -> List[Role]:
     roles_query = select(Role) \
         .join(UserRole) \
         .filter(UserRole.user_id == user.id)
-    roles: List[Role] = (await session.execute(roles_query)).scalars().all()
+    return (await session.execute(roles_query)).scalars().all()
+
+
+async def get_my_permissions(session: AsyncSession, user: DefaultUser) -> List[Permission]:
+    roles = await get_roles(session, user)
 
     permissions_query = select(Permission) \
         .join(RolePermission) \
