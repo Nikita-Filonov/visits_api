@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, Response, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -11,6 +11,7 @@ from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
 from users.controllers.users import safely_get_user
 from users.schemas.users import DefaultUser
+from utils.api import resolve_query_params
 
 user_pairs_router = APIRouter(prefix="/user-pairs")
 
@@ -18,14 +19,17 @@ user_pairs_router = APIRouter(prefix="/user-pairs")
 @user_pairs_router.get('', tags=['user-pairs'], response_model=List[DefaultUserPair])
 async def get_user_pairs_view(
         pair_id: int = Query(..., alias='pairId'),
+        user_id: Optional[int] = Query(default=None, alias='userId'),
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
-    if await is_action_allowed([UserPair.VIEW], session, user):
-        user_pairs = await UserPair.filter(session, pair_id=pair_id, load=(UserPair.user, UserPair.pair))
-        return await serialize_user_pairs(session, user_pairs)
+    if not await is_action_allowed([UserPair.VIEW], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    return Response(status_code=status.HTTP_403_FORBIDDEN)
+    query = await resolve_query_params(pair_id=pair_id, user_id=user_id)
+    user_pairs = await UserPair.filter(session, **query, load=(UserPair.user, UserPair.pair))
+
+    return await serialize_user_pairs(session, user_pairs)
 
 
 @user_pairs_router.post('', tags=['user-pairs'], response_model=DefaultUserPair)
