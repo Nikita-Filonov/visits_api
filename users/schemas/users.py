@@ -38,4 +38,4 @@ class ConfirmUser(BaseModel):
 class UserNotFound(BaseModel):
     level: str = 'error'
     message: str = 'User with email "{0}" not found'
-    email: str
+    args: list

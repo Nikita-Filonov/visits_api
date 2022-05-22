@@ -41,7 +41,7 @@ async def create_user_pair_view(
     if not await is_action_allowed([UserPair.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    user = await safely_get_user(session, email=create_user_pair.email)
+    user = await safely_get_user(session, email=create_user_pair.email, username=create_user_pair.username)
 
     user_pair = await UserPair.create(session, user_id=user.id, pair_id=create_user_pair.pair_id)
     return await UserPair.get(session, id=user_pair.id, load=(UserPair.user, UserPair.pair))

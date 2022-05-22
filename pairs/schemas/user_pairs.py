@@ -8,7 +8,8 @@ from users.schemas.users import DefaultUser
 
 
 class CreateUserPair(BaseModel):
-    email: str
+    email: Optional[str]
+    username: Optional[str]
     pair_id: int = Field(alias='pairId')
 
 
