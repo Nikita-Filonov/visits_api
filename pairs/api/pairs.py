@@ -23,14 +23,11 @@ async def get_pairs_view(
     if not await is_action_allowed([Pair.VIEW], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    roles = [role.name for role in await get_roles(session, user)]
-    if Roles.INSTRUCTOR.value in roles:
-        return await Pair.filter(session, created_by_user_id=user.id)
-
-    if Roles.LEARNER.value in roles:
+    is_learner = any((role.name == Roles.LEARNER.value) for role in await get_roles(session, user))
+    if is_learner:
         return await get_learner_pairs(session, user_id=user.id)
 
-    return []
+    return await Pair.filter(session, created_by_user_id=user.id)
 
 
 @pairs_router.get('/me', tags=['pairs'], response_model=List[DefaultPair])
