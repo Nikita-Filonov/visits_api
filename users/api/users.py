@@ -17,7 +17,7 @@ async def read_users_me(current_user: LoginUser = Depends(is_user_authenticated)
 
 @users_router.post("/", tags=['user'], response_model=DefaultUser)
 async def create_user(user: CreateUser, session: AsyncSession = Depends(get_session)):
-    user = await User.create(session, user)
+    user = await User.create(session, **user.dict())
     await send_user_confirm_email(session, user)
     return user
 

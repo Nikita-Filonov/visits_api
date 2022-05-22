@@ -3,11 +3,10 @@ from typing import Optional
 from sqlalchemy import Column, Integer, String, JSON, Boolean, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database import Base
-from users.schemas.users import CreateUser
+from models.model import BaseModel
 
 
-class User(Base):
+class User(BaseModel):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -20,14 +19,6 @@ class User(Base):
     admin = Column(Boolean, default=False)  # a superuser+
     is_active = Column(Boolean, default=False)
     is_email_confirmed = Column(Boolean, default=False)
-
-    @classmethod
-    async def create(cls, session: AsyncSession, user: CreateUser) -> 'User':
-        model = cls(**user.dict())
-        session.add(model)
-        await session.commit()
-
-        return model
 
     @classmethod
     async def get(cls, session: AsyncSession, *args, **kwargs) -> Optional['User']:
