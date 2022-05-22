@@ -46,5 +46,17 @@
   {
     "id": 12,
     "scope": "Create.GroupUser"
+  },
+  {
+    "id": 13,
+    "scope": "Update.UserPair"
+  },
+  {
+    "id": 14,
+    "scope": "Delete.UserPair"
+  },
+  {
+    "id": 15,
+    "scope": "View.SelfQRCode"
   }
 ]
