@@ -8,6 +8,8 @@ class Pair(BaseModel):
 
     VIEW = 'View.Pair'
     CREATE = 'Create.Pair'
+    DELETE = 'Delete.Pair'
+    UPDATE = 'Update.Pair'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), comment='Name')

@@ -48,3 +48,34 @@ async def create_pair_view(
         return await Pair.create(session, **create_pair.dict(), created_by_user_id=user.id)
 
     return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+
+@pairs_router.delete('/{pair_id}/', tags=['pairs'], status_code=status.HTTP_204_NO_CONTENT)
+async def delete_pair_view(
+        pair_id: int,
+        session: AsyncSession = Depends(get_session),
+        user: DefaultUser = Depends(is_user_authenticated)
+):
+    if not await is_action_allowed([Pair.DELETE], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    await Pair.delete(session, id=pair_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@pairs_router.patch('/{pair_id}/', tags=['pairs'], response_model=DefaultPair)
+async def update_pair_view(
+        pair_id: int,
+        update_pair: CreatePair,
+        session: AsyncSession = Depends(get_session),
+        user: DefaultUser = Depends(is_user_authenticated)
+):
+    if not await is_action_allowed([Pair.UPDATE], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    pair = await Pair.get(session, id=pair_id, user_id=user.id)
+    if pair is None:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
+
+    await pair.update(session, entity_id=pair_id, **update_pair.dict(exclude_unset=True))
+    return pair
