@@ -43,7 +43,7 @@ async def create_user_pair_view(
 
     user = await safely_get_user(session, email=create_user_pair.email, username=create_user_pair.username)
 
-    user_pair = await UserPair.create(session, user_id=user.id, pair_id=create_user_pair.pair_id)
+    _, user_pair = await UserPair.get_or_create(session, user_id=user.id, pair_id=create_user_pair.pair_id)
     return await UserPair.get(session, id=user_pair.id, load=(UserPair.user, UserPair.pair))
 
 

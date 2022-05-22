@@ -1,4 +1,4 @@
-from typing import Optional, List, Union
+from typing import Optional, List, Union, Tuple
 
 from fastapi import HTTPException, status
 from sqlalchemy import select, update
@@ -67,6 +67,14 @@ class BaseModel(Base):
         await session.commit()
 
         return model
+
+    @classmethod
+    async def get_or_create(cls, session: AsyncSession, **kwargs) -> Tuple[bool, 'BaseModel']:
+        model = await cls.get(session, **kwargs)
+        if model is None:
+            return True, await cls.create(session, **kwargs)
+
+        return False, model
 
     @classmethod
     async def delete(cls, session: AsyncSession, **kwargs) -> None:

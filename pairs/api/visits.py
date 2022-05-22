@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Response, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
-from models import Visit
+from models import Visit, UserPair
 from pairs.schemas.visitis import CreateVisit, DefaultVisit
 from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
@@ -43,6 +43,8 @@ async def create_visit_view(
 ):
     if not await is_action_allowed([Visit.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    await UserPair.get_or_create(session, user_id=create_visit.user_id, pair_id=create_visit.pair_id)
 
     visit = await Visit.get_to_day_visit(session, user_id=create_visit.user_id, pair_id=create_visit.pair_id)
 
