@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from enum import Enum as LibEnum
 from typing import Optional
 
-from sqlalchemy import Column, Integer, DateTime, func, ForeignKey
+from sqlalchemy import Column, Integer, DateTime, func, ForeignKey, Float
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.model import BaseModel
@@ -23,6 +23,7 @@ class Visit(BaseModel):
     id = Column(Integer, primary_key=True, autoincrement=True)
     state = Column(Integer, default=VisitStates.MISSED_PAIR.value, comment='State')
     when = Column(DateTime(timezone=True), server_default=func.now())
+    score = Column(Float, default=None, comment='Score')
     user_id = Column(Integer, ForeignKey('user.id'), comment='User')
     pair_id = Column(Integer, ForeignKey('pair.id'), comment='Pair')
 

@@ -8,6 +8,7 @@ from models.pairs.visit import VisitStates
 class CreateVisit(BaseModel):
     when: datetime
     state: VisitStates
+    score: float
     user_id: int = Field(alias='userId')
     pair_id: int = Field(alias='pairId')
 
