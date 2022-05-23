@@ -63,3 +63,16 @@ async def create_user_pair_group_view(
     ]
     return await UserPair.filter(
         session, clause_filter=(UserPair.id.in_(user_pairs),), load=(UserPair.user, UserPair.pair))
+
+
+@user_pairs_router.delete('/{user_pair_id}/', tags=['user-pairs'], status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user_pair_view(
+        user_pair_id: int,
+        session: AsyncSession = Depends(get_session),
+        user: DefaultUser = Depends(is_user_authenticated)
+):
+    if not await is_action_allowed([UserPair.DELETE], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    await UserPair.delete(session, id=user_pair_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)

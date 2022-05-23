@@ -9,6 +9,7 @@ class UserPair(BaseModel):
 
     VIEW = 'View.UserPair'
     CREATE = 'Create.UserPair'
+    DELETE = 'Delete.UserPair'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), comment='User')
