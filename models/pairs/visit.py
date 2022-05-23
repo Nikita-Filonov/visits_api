@@ -24,8 +24,8 @@ class Visit(BaseModel):
     state = Column(Integer, default=VisitStates.MISSED_PAIR.value, comment='State')
     when = Column(DateTime(timezone=True), server_default=func.now())
     score = Column(Float, default=None, comment='Score')
-    user_id = Column(Integer, ForeignKey('user.id'), comment='User')
-    pair_id = Column(Integer, ForeignKey('pair.id'), comment='Pair')
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), comment='User')
+    pair_id = Column(Integer, ForeignKey('pair.id', ondelete='CASCADE'), comment='Pair')
 
     @classmethod
     async def get_to_day_visit(cls, session: AsyncSession, user_id: int, pair_id: int) -> Optional['Visit']:

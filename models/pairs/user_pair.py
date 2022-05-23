@@ -11,7 +11,7 @@ class UserPair(BaseModel):
     CREATE = 'Create.UserPair'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('user.id'), comment='User')
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), comment='User')
     user = relationship('User')
-    pair_id = Column(Integer, ForeignKey('pair.id'), comment='Pair')
+    pair_id = Column(Integer, ForeignKey('pair.id', ondelete='CASCADE'), comment='Pair')
     pair = relationship('Pair')
