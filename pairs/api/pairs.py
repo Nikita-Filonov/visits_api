@@ -65,7 +65,7 @@ async def update_pair_view(
     if not await is_action_allowed([Pair.UPDATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    pair = await Pair.get(session, id=pair_id, user_id=user.id)
+    pair = await Pair.get(session, id=pair_id)
     if pair is None:
         return Response(status_code=status.HTTP_404_NOT_FOUND)
 
