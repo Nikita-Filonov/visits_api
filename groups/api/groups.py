@@ -47,3 +47,21 @@ async def delete_group_view(
 
     await Group.delete(session, id=group_id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@groups_router.patch('/{group_id}/', tags=['pairs'], response_model=DefaultGroup)
+async def update_group_view(
+        group_id: int,
+        update_group: CreateGroup,
+        session: AsyncSession = Depends(get_session),
+        user: DefaultUser = Depends(is_user_authenticated)
+):
+    if not await is_action_allowed([Group.UPDATE], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    group = await Group.get(session, id=group_id)
+    if group is None:
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
+
+    await group.update(session, entity_id=group_id, **update_group.dict(exclude_unset=True))
+    return group
