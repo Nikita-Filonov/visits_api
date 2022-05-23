@@ -1,6 +1,4 @@
-from typing import Optional
-
-from sqlalchemy import Column, Integer, String, JSON, Boolean, select, update
+from sqlalchemy import Column, Integer, String, JSON, Boolean, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models.model import BaseModel
@@ -19,11 +17,6 @@ class User(BaseModel):
     admin = Column(Boolean, default=False)  # a superuser+
     is_active = Column(Boolean, default=False)
     is_email_confirmed = Column(Boolean, default=False)
-
-    @classmethod
-    async def get(cls, session: AsyncSession, *args, **kwargs) -> Optional['User']:
-        result = await session.execute(select(cls).filter_by(**kwargs).filter(*args))
-        return result.scalars().first()
 
     @classmethod
     async def update(cls, session: AsyncSession, user: 'User', **kwargs) -> None:
