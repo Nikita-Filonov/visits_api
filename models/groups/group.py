@@ -8,6 +8,7 @@ class Group(BaseModel):
 
     VIEW = 'View.Group'
     CREATE = 'Create.Group'
+    DELETE = 'Delete.Group'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), comment='Name')

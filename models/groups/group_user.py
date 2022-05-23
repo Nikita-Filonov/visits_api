@@ -9,6 +9,7 @@ class GroupUser(BaseModel):
 
     VIEW = 'View.GroupUser'
     CREATE = 'Create.GroupUser'
+    DELETE = 'Delete.GroupUser'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('user.id'), comment='User')

@@ -58,5 +58,17 @@
   {
     "id": 15,
     "scope": "View.SelfQRCode"
+  },
+  {
+    "id": 16,
+    "scope": "Update.Group"
+  },
+  {
+    "id": 17,
+    "scope": "Delete.Group"
+  },
+  {
+    "id": 18,
+    "scope": "Delete.GroupUser"
   }
 ]

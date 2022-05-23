@@ -88,5 +88,20 @@
     "id": 18,
     "permission_id": 3,
     "role_id": 2
+  },
+  {
+    "id": 19,
+    "permission_id": 16,
+    "role_id": 2
+  },
+  {
+    "id": 20,
+    "permission_id": 17,
+    "role_id": 2
+  },
+  {
+    "id": 21,
+    "permission_id": 18,
+    "role_id": 2
   }
 ]

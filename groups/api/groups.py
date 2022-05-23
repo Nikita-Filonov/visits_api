@@ -34,3 +34,16 @@ async def create_group_view(
         return await Group.create(session, **create_group.dict())
 
     return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+
+@groups_router.delete('/{group_id}/', tags=['groups'], status_code=status.HTTP_204_NO_CONTENT)
+async def delete_group_view(
+        group_id: int,
+        session: AsyncSession = Depends(get_session),
+        user: DefaultUser = Depends(is_user_authenticated)
+):
+    if not await is_action_allowed([Group.DELETE], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    await Group.delete(session, id=group_id)
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
