@@ -37,7 +37,7 @@ async def create_group_user_view(
 
     user = await safely_get_user(session, email=create_group_user.email, username=create_group_user.username)
 
-    group_user = await GroupUser.create(session, group_id=create_group_user.group_id, user_id=user.id)
+    _, group_user = await GroupUser.get_or_create(session, group_id=create_group_user.group_id, user_id=user.id)
     return await GroupUser.get(session, id=group_user.id, load=(GroupUser.user, GroupUser.group))
 
 
