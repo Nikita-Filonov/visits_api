@@ -35,7 +35,7 @@ async def create_group_user_view(
     if not await is_action_allowed([GroupUser.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    user = await safely_get_user(session, email=create_group_user.email)
+    user = await safely_get_user(session, email=create_group_user.email, username=create_group_user.username)
 
     group_user = await GroupUser.create(session, group_id=create_group_user.group_id, user_id=user.id)
     return await GroupUser.get(session, id=group_user.id, load=(GroupUser.user, GroupUser.group))
