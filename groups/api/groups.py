@@ -49,7 +49,7 @@ async def delete_group_view(
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@groups_router.patch('/{group_id}/', tags=['pairs'], response_model=DefaultGroup)
+@groups_router.patch('/{group_id}/', tags=['groups'], response_model=DefaultGroup)
 async def update_group_view(
         group_id: int,
         update_group: CreateGroup,

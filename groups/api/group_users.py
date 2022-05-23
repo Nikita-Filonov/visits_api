@@ -41,7 +41,7 @@ async def create_group_user_view(
     return await GroupUser.get(session, id=group_user.id, load=(GroupUser.user, GroupUser.group))
 
 
-@group_users_router.delete('/{group_user_id}/', tags=['groups'], status_code=status.HTTP_204_NO_CONTENT)
+@group_users_router.delete('/{group_user_id}/', tags=['group-users'], status_code=status.HTTP_204_NO_CONTENT)
 async def delete_group_user_view(
         group_user_id: int,
         session: AsyncSession = Depends(get_session),
