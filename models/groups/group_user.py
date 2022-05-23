@@ -12,7 +12,7 @@ class GroupUser(BaseModel):
     DELETE = 'Delete.GroupUser'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('user.id'), comment='User')
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), comment='User')
     user = relationship('User')
-    group_id = Column(Integer, ForeignKey('group.id'), comment='Group')
+    group_id = Column(Integer, ForeignKey('group.id', ondelete='CASCADE'), comment='Group')
     group = relationship('Group')
