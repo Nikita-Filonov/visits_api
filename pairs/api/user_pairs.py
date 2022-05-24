@@ -58,7 +58,7 @@ async def create_user_pair_group_view(
 
     group_users = await GroupUser.filter(session, clause_filter=(GroupUser.group_id.in_(create_user_pair.groups),))
     user_pairs = [
-        (await UserPair.create(session, user_id=group_user.user_id, pair_id=create_user_pair.pair_id)).id
+        (await UserPair.get_or_create(session, user_id=group_user.user_id, pair_id=create_user_pair.pair_id))[1].id
         for group_user in group_users
     ]
     return await UserPair.filter(
