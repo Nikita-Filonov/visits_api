@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, Field
 
@@ -14,7 +14,7 @@ class CreateUserPair(BaseModel):
 
 
 class CreateGroupUserPair(BaseModel):
-    group_id: int = Field(alias='groupId')
+    groups: List[int] = Field(alias='groups')
     pair_id: int = Field(alias='pairId')
 
 
