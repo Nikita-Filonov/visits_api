@@ -7,7 +7,7 @@ from database import get_session
 from models import Pair
 from models.roles.role import Roles
 from pairs.controllers.pairs import get_learner_pairs
-from pairs.schemas.pairs import CreatePair, DefaultPair
+from pairs.schemas.pairs import CreatePair, DefaultPair, UpdatePair
 from permissions.controllers.permissions import is_action_allowed, get_roles
 from users.authentications.authenticators import is_user_authenticated
 from users.schemas.users import DefaultUser
@@ -58,7 +58,7 @@ async def delete_pair_view(
 @pairs_router.patch('/{pair_id}/', tags=['pairs'], response_model=DefaultPair)
 async def update_pair_view(
         pair_id: int,
-        update_pair: CreatePair,
+        update_pair: UpdatePair,
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):

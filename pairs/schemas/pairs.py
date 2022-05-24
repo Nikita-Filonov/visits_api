@@ -11,11 +11,14 @@ class CreatePair(BaseModel):
     end_at: Optional[time] = Field(alias='endAt')
 
 
-class DefaultPair(CreatePair):
-    id: int
+class UpdatePair(CreatePair):
     visit_score: Optional[float] = Field(alias='visitScore')
     missed_score: Optional[float] = Field(alias='missedScore')
     sick_score: Optional[float] = Field(alias='sickScore')
+
+
+class DefaultPair(UpdatePair):
+    id: int
 
     class Config:
         orm_mode = True
