@@ -13,6 +13,9 @@ class CreatePair(BaseModel):
 
 class DefaultPair(CreatePair):
     id: int
+    visit_score: Optional[float] = Field(alias='visitScore')
+    missed_score: Optional[float] = Field(alias='missedScore')
+    sick_score: Optional[float] = Field(alias='sickScore')
 
     class Config:
         orm_mode = True
