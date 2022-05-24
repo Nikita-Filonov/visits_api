@@ -22,6 +22,9 @@ async def safely_get_user(session: AsyncSession, **user_fields) -> User:
 
 
 async def safely_get_users(session: AsyncSession, limit: int, username: str = None, email: str = None) -> List[User]:
+    if (not username) and (not email):
+        return []
+
     clause_filter = ()
     if username:
         clause_filter += (User.username.contains(username),)
