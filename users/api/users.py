@@ -1,18 +1,36 @@
-from fastapi import Depends, APIRouter, Response, status
+from typing import List, Optional
+
+from fastapi import Depends, APIRouter, Response, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
 from models import User, Token
+from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
+from users.controllers.users import safely_get_users
 from users.emails.users_emails import send_user_confirm_email
-from users.schemas.users import LoginUser, CreateUser, DefaultUser, ConfirmUser
+from users.schemas.users import CreateUser, DefaultUser, ConfirmUser
 
 users_router = APIRouter(prefix="/user")
 
 
-@users_router.get("/me/", tags=['user'])
-async def read_users_me(current_user: LoginUser = Depends(is_user_authenticated)):
+@users_router.get("/me/", tags=['user'], response_model=DefaultUser)
+async def read_users_me(current_user: DefaultUser = Depends(is_user_authenticated)):
     return current_user
+
+
+@users_router.get("/query", tags=['user'], response_model=List[DefaultUser])
+async def get_users_query(
+        username: Optional[str] = Query(default=None),
+        email: Optional[str] = Query(default=None),
+        limit: int = Query(default=10, description='Number of users to be returned'),
+        session: AsyncSession = Depends(get_session),
+        user: DefaultUser = Depends(is_user_authenticated),
+):
+    if not await is_action_allowed([User.VIEW], session, user):
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
+
+    return await safely_get_users(session, limit=limit, username=username, email=email)
 
 
 @users_router.post("/", tags=['user'], response_model=DefaultUser)

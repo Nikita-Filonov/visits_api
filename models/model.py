@@ -38,7 +38,8 @@ class BaseModel(Base):
             session: AsyncSession,
             select_values: Union[list, tuple, None] = None,
             order_by: Union[list, tuple, None] = None,
-            clause_filter=None,
+            clause_filter: tuple = None,
+            limit: int = None,
             slice_query: Union[list, tuple, None] = None,
             load: Union[list, tuple, None] = None,
             **kwargs
@@ -56,6 +57,9 @@ class BaseModel(Base):
 
         if clause_filter:
             query = query.filter(*clause_filter)
+
+        if limit:
+            query = query.limit(limit)
 
         result = await session.execute(query)
         return result.scalars().all()

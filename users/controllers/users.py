@@ -1,4 +1,7 @@
+from typing import List
+
 from fastapi import status, HTTPException
+from sqlalchemy import or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from models import User
@@ -16,3 +19,14 @@ async def safely_get_user(session: AsyncSession, **user_fields) -> User:
         )
 
     return user
+
+
+async def safely_get_users(session: AsyncSession, limit: int, username: str = None, email: str = None) -> List[User]:
+    clause_filter = ()
+    if username:
+        clause_filter += (User.username.contains(username),)
+
+    if email:
+        clause_filter += (User.email.contains(email),)
+
+    return await User.filter(session, clause_filter=(or_(*clause_filter),), limit=limit)

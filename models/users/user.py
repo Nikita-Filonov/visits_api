@@ -7,6 +7,8 @@ from models.model import BaseModel
 class User(BaseModel):
     __tablename__ = 'user'
 
+    VIEW = 'View.User'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(70), comment='Username', nullable=False)
     email = Column(String(70), comment='Email', nullable=False, unique=True)
