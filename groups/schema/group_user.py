@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -7,8 +7,7 @@ from users.schemas.users import DefaultUser
 
 
 class CreateGroupUser(BaseModel):
-    email: Optional[str]
-    username: Optional[str]
+    users: List[int]
     group_id: int = Field(alias='groupId')
 
 

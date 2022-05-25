@@ -13,10 +13,7 @@ async def create_multiple_user_pairs(session: AsyncSession, create_user_pair: Cr
     ]
 
     return await UserPair.filter(
-        session,
-        clause_filter=(UserPair.id.in_(user_pairs),),
-        load=(UserPair.user, UserPair.pair)
-    )
+        session, clause_filter=(UserPair.id.in_(user_pairs),), load=(UserPair.user, UserPair.pair))
 
 
 async def create_multiple_user_pairs_group(

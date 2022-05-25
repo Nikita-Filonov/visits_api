@@ -4,11 +4,11 @@ from fastapi import APIRouter, Depends, Response, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
+from groups.controllers.group_users import create_multiple_group_users
 from groups.schema.group_user import CreateGroupUser, DefaultGroupUser
 from models import GroupUser
 from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
-from users.controllers.users import safely_get_user
 from users.schemas.users import DefaultUser
 
 group_users_router = APIRouter(prefix="/group-users")
@@ -26,7 +26,7 @@ async def get_group_users(
     return await GroupUser.filter(session, group_id=group_id, load=(GroupUser.user, GroupUser.group))
 
 
-@group_users_router.post('', tags=['group-users'], response_model=DefaultGroupUser)
+@group_users_router.post('', tags=['group-users'], response_model=List[DefaultGroupUser])
 async def create_group_user_view(
         create_group_user: CreateGroupUser,
         session: AsyncSession = Depends(get_session),
@@ -35,10 +35,7 @@ async def create_group_user_view(
     if not await is_action_allowed([GroupUser.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    user = await safely_get_user(session, email=create_group_user.email, username=create_group_user.username)
-
-    _, group_user = await GroupUser.get_or_create(session, group_id=create_group_user.group_id, user_id=user.id)
-    return await GroupUser.get(session, id=group_user.id, load=(GroupUser.user, GroupUser.group))
+    return await create_multiple_group_users(session, create_group_user)
 
 
 @group_users_router.delete('/{group_user_id}/', tags=['group-users'], status_code=status.HTTP_204_NO_CONTENT)
