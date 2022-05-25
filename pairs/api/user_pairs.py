@@ -5,11 +5,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
 from models import UserPair, GroupUser
+from pairs.controllers.user_pairs import create_multiple_user_pairs
 from pairs.schemas.user_pairs import CreateUserPair, DefaultUserPair, CreateGroupUserPair
 from pairs.serializers.user_pairs import serialize_user_pairs
 from permissions.controllers.permissions import is_action_allowed
 from users.authentications.authenticators import is_user_authenticated
-from users.controllers.users import safely_get_user
 from users.schemas.users import DefaultUser
 from utils.api import resolve_query_params
 
@@ -32,7 +32,7 @@ async def get_user_pairs_view(
     return await serialize_user_pairs(session, user_pairs)
 
 
-@user_pairs_router.post('', tags=['user-pairs'], response_model=DefaultUserPair)
+@user_pairs_router.post('', tags=['user-pairs'], response_model=List[DefaultUserPair])
 async def create_user_pair_view(
         create_user_pair: CreateUserPair,
         session: AsyncSession = Depends(get_session),
@@ -41,10 +41,7 @@ async def create_user_pair_view(
     if not await is_action_allowed([UserPair.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    user = await safely_get_user(session, email=create_user_pair.email, username=create_user_pair.username)
-
-    _, user_pair = await UserPair.get_or_create(session, user_id=user.id, pair_id=create_user_pair.pair_id)
-    return await UserPair.get(session, id=user_pair.id, load=(UserPair.user, UserPair.pair))
+    return await create_multiple_user_pairs(session, create_user_pair)
 
 
 @user_pairs_router.post('/groups', tags=['user-pairs'], response_model=List[DefaultUserPair])
