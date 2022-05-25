@@ -10,5 +10,5 @@ async def send_user_confirm_email(session: AsyncSession, user: User):
     code = await random_string()
     await user.update(session, user, confirmation_codes=[*user.confirmation_codes, code])
 
-    context = {'username': user.username, 'code': code, 'link': HOST + f'confirm-email?email={user.email}'}
+    context = {'username': user.username, 'code': code, 'link': HOST + f'/confirm-email?email={user.email}'}
     await send_email_async(subject, user.email, context, 'activation_code_ru.html')
