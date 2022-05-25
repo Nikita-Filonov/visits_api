@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, Response, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
-from models import UserPair, GroupUser
-from pairs.controllers.user_pairs import create_multiple_user_pairs
+from models import UserPair
+from pairs.controllers.user_pairs import create_multiple_user_pairs, create_multiple_user_pairs_group
 from pairs.schemas.user_pairs import CreateUserPair, DefaultUserPair, CreateGroupUserPair
 from pairs.serializers.user_pairs import serialize_user_pairs
 from permissions.controllers.permissions import is_action_allowed
@@ -53,13 +53,7 @@ async def create_user_pair_group_view(
     if not await is_action_allowed([UserPair.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
-    group_users = await GroupUser.filter(session, clause_filter=(GroupUser.group_id.in_(create_user_pair.groups),))
-    user_pairs = [
-        (await UserPair.get_or_create(session, user_id=group_user.user_id, pair_id=create_user_pair.pair_id))[1].id
-        for group_user in group_users
-    ]
-    return await UserPair.filter(
-        session, clause_filter=(UserPair.id.in_(user_pairs),), load=(UserPair.user, UserPair.pair))
+    return await create_multiple_user_pairs_group(session, create_user_pair)
 
 
 @user_pairs_router.delete('/{user_pair_id}/', tags=['user-pairs'], status_code=status.HTTP_204_NO_CONTENT)
