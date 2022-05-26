@@ -17,10 +17,6 @@ async def seed_users():
     async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
     async with async_session() as session:
         for user, user_role in zip(users, user_roles):
-            u = await User.get(session, email=user['email'])
-            await Token.delete(session, user_id=u.id)
-            await u.delete(session, id=u.id)
-
             is_user_exists = await User.get(session, email=user['email'])
             if is_user_exists:
                 return

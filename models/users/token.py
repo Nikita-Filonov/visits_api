@@ -5,11 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import relationship, selectinload
 
 from database import Base
-from models.model import BaseModel
 from users.authentications.token import generate_token
 
 
-class Token(BaseModel):
+class Token(Base):
     __tablename__ = 'token'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
