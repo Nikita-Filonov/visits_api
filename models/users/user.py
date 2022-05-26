@@ -13,7 +13,6 @@ class User(BaseModel):
     username = Column(String(70), comment='Username', nullable=False)
     email = Column(String(70), comment='Email', nullable=False, unique=True)
     password = Column(String(200), comment='Пароль', nullable=False)
-    token = Column(String(500), comment='Push notification token', default=None)
     confirmation_codes = Column(JSON, comment='Коды подтверждений', default=[])
     staff = Column(Boolean, default=False)  # a admin user; non super-user
     admin = Column(Boolean, default=False)  # a superuser+

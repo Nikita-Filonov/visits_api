@@ -15,7 +15,6 @@ class CreateUser(BaseModel):
     username: str = Field(min_length=6, max_length=70)
     password: str
 
-    # TODO добавить кастомный валидатор для пароля
     @validator('password')
     def validate_password(cls, value):
         return get_password_hash(value)
