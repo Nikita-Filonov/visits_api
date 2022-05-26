@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_session
 from models import Token
-from users.authentications.authenticators import is_user_authenticated, authenticate
+from users.authentications.authenticators import authenticate
 from users.schemas.users import LoginUser
 
 token_router = APIRouter(prefix="/token")
@@ -18,8 +18,3 @@ async def get_token(login_user: LoginUser, session: AsyncSession = Depends(get_s
         return {'token': token.value}
 
     return Response(status_code=status.HTTP_401_UNAUTHORIZED)
-
-
-@token_router.post("/google/", tags=['token'])
-async def get_token_google(current_user: LoginUser = Depends(is_user_authenticated)):
-    return current_user
