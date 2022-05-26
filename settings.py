@@ -10,7 +10,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'rq.calculator@gmail.com'
 EMAIL_HOST_PASSWORD = 'urtsswubwcaqmbjo'
 
-HOST = 'http://localhost:8000'
+HOST = 'https://mobile-visits-api.herokuapp.com'
 
 email_config = ConnectionConfig(
     MAIL_USERNAME=EMAIL_HOST_USER,
