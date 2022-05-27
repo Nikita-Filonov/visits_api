@@ -7,5 +7,5 @@ class UserRole(BaseModel):
     __tablename__ = 'user_role'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    role_id = Column(Integer, ForeignKey('role.id'))
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'))
+    role_id = Column(Integer, ForeignKey('role.id', ondelete='CASCADE'))

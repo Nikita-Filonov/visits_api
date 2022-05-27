@@ -13,7 +13,7 @@ class Token(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     value = Column(String(40), comment='Значение токена', nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'), comment='Пользователь', default=None)
+    user_id = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), comment='Пользователь', default=None)
     user = relationship('User')
 
     @classmethod

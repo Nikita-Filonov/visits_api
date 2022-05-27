@@ -19,4 +19,9 @@ class Pair(BaseModel):
     visit_score = Column(Float, comment='Score for each pair visit', default=None)
     missed_score = Column(Float, comment='Score for each pair miss', default=None)
     sick_score = Column(Float, comment='Score when user were sick', default=None)
-    created_by_user_id = Column(Integer, ForeignKey('user.id'), default=None, comment='Who has created the pair')
+    created_by_user_id = Column(
+        Integer,
+        ForeignKey('user.id', ondelete='CASCADE'),
+        default=None,
+        comment='Who has created the pair'
+    )

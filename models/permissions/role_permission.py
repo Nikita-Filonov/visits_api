@@ -7,5 +7,5 @@ class RolePermission(BaseModel):
     __tablename__ = 'role_permission'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    permission_id = Column(Integer, ForeignKey('permission.id'), comment='Permission')
-    role_id = Column(Integer, ForeignKey('role.id'), comment='Role')
+    permission_id = Column(Integer, ForeignKey('permission.id', ondelete='CASCADE'), comment='Permission')
+    role_id = Column(Integer, ForeignKey('role.id', ondelete='CASCADE'), comment='Role')
