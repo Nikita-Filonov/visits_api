@@ -7,6 +7,13 @@ from models import GroupUser
 
 
 async def create_multiple_group_users(session: AsyncSession, create_group_user: CreateGroupUser) -> List[GroupUser]:
+    """
+    :param session: см. README.md ``Объекты``
+    :param create_group_user: Объект ``CreateGroupUser`` передаваемый в теле запроса
+    :return: Возвращает список объектов ``GroupUser``
+
+    Используется, чтобы добавить в группу сразу несколько пользователей
+    """
     group_users = [
         (await GroupUser.get_or_create(session, group_id=create_group_user.group_id, user_id=user_id))[1].id
         for user_id in create_group_user.users
