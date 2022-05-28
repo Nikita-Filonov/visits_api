@@ -18,6 +18,11 @@ async def get_groups_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает список из ``DefaultGroup`` объектов
+    """
     if await is_action_allowed([Group.VIEW], session, user):
         return await Group.filter(session)
 
@@ -30,6 +35,12 @@ async def create_group_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param create_group: Объект ``CreateGroup``, который передается в теле запроса
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает объект ``DefaultGroup``
+    """
     if await is_action_allowed([Group.CREATE], session, user):
         return await Group.create(session, **create_group.dict())
 

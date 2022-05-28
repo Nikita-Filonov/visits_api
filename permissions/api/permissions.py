@@ -23,6 +23,11 @@ async def get_my_permissions_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param session:
+    :param user:
+    :return:
+    """
     return await get_my_permissions(session, user)
 
 

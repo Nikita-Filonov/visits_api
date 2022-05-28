@@ -101,3 +101,10 @@ python -m seeders.users
 ```
 
 После чего будут созданны Roles, UserRoles, Permissions, RolePermissions, Users, Tokens
+
+
+Объекты
+---
+
+- `session` - Асинхронный объект сессии для работы с базой данных
+- `user` - Текущий пользователь, который выполняет запрос к данному view
