@@ -20,6 +20,11 @@ async def get_pairs_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает список объектов ``DefaultPair``
+    """
     if not await is_action_allowed([Pair.VIEW], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
@@ -36,6 +41,12 @@ async def create_pair_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param create_pair: Объект ``CreatePair``, который передается в теле запроса
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает объект ``DefaultPair``
+    """
     if await is_action_allowed([Pair.CREATE], session, user):
         return await Pair.create(session, **create_pair.dict(), created_by_user_id=user.id)
 
@@ -48,6 +59,13 @@ async def delete_pair_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param pair_id: Integer значение id пары
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Не возвращает никаких объектов, только статус код 204
+    при успешном удалении пары
+    """
     if not await is_action_allowed([Pair.DELETE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
@@ -62,6 +80,13 @@ async def update_pair_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param pair_id: Integer значение id пары
+    :param update_pair: Объект ``UpdatePair``, который передается в теле запроса
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает объект ``DefaultPair``
+    """
     if not await is_action_allowed([Pair.UPDATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
