@@ -20,6 +20,12 @@ async def get_group_users(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param group_id: Integer значение id группы, которое передается в query params
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает список объектов ``DefaultGroupUser``
+    """
     if not await is_action_allowed([GroupUser.VIEW], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
@@ -32,6 +38,12 @@ async def create_group_user_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param create_group_user: Объект ``CreateGroupUser``, который передается в теле запроса
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает список объектов ``DefaultGroupUser``
+    """
     if not await is_action_allowed([GroupUser.CREATE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
@@ -44,6 +56,13 @@ async def delete_group_user_view(
         session: AsyncSession = Depends(get_session),
         user: DefaultUser = Depends(is_user_authenticated)
 ):
+    """
+    :param group_user_id: Integer значение id группового юзера
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Не возвращает никаких объектов, только статус код 204
+    при успешном удалении группового юзера
+    """
     if not await is_action_allowed([GroupUser.DELETE], session, user):
         return Response(status_code=status.HTTP_403_FORBIDDEN)
 
