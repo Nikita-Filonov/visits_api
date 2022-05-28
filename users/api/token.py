@@ -11,6 +11,12 @@ token_router = APIRouter(prefix="/token")
 
 @token_router.post("/", tags=['token'])
 async def get_token(login_user: LoginUser, session: AsyncSession = Depends(get_session)):
+    """
+    :param login_user: Объект ``LoginUser``, который передается в теле запроса
+    :param session: см. README.md ``Объекты``
+    :return: Возвращает токен пользователя или 401 код если
+    пользователь не прошел аутентификацию
+    """
     user = await authenticate(session, login_user)
 
     if user is not None:
