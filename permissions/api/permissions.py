@@ -15,6 +15,11 @@ permissions_router = APIRouter(prefix="/permissions")
 
 @permissions_router.get('', tags=['permissions'], response_model=List[DefaultPermission])
 async def get_permissions_view(session: AsyncSession = Depends(get_session)):
+    """
+    :param session: session: см. README.md ``Объекты``
+    :return: Возвращает список объектов ``DefaultPermission``. Возвращает
+    абсолютно все имеющиеся права
+    """
     return await Permission.filter(session)
 
 
@@ -24,9 +29,9 @@ async def get_my_permissions_view(
         user: DefaultUser = Depends(is_user_authenticated)
 ):
     """
-    :param session:
-    :param user:
-    :return:
+    :param session: см. README.md ``Объекты``
+    :param user: см. README.md ``Объекты``
+    :return: Возвращает список объектов ``DefaultPermission``, для текущего ``user``
     """
     return await get_my_permissions(session, user)
 
