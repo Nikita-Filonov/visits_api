@@ -13,6 +13,11 @@ API_KEY_HEADER = APIKeyHeader(name='Authorization')
 
 
 async def authenticate(session: AsyncSession, login_user: LoginUser) -> Optional[User]:
+    """
+    :param session: см. README.md ``Объекты``
+    :param login_user: Объект ``LoginUser`` переданный в теле запроса
+    :return: Возвращает объект ``User`` или ``None``
+    """
     user = await User.get(session, email=login_user.email, is_active=True)
     if user is None:
         return
@@ -25,7 +30,13 @@ async def is_user_authenticated(
         session: AsyncSession = Depends(get_session),
         api_key: str = Depends(API_KEY_HEADER)
 ) -> DefaultUser:
-    """ takes the X-API-Key header and converts it into the matching user object from the database """
+    """
+    :param session: см. README.md ``Объекты``
+    :param api_key: Заголовок с токеном, который передается в запроса для аутентификации и
+    идентификации пользователя. Выглядит как: ``Token <token_goes_here>``
+    :return: Возвращает объект ``DefaultUser``
+    :raises: Поднимает ``HTTPException`` если токен некорректный или пользователь не активен
+    """
     prefix, token = api_key.split()
     if prefix != 'Token':
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Prefix")
