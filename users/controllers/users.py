@@ -7,6 +7,16 @@ from models import User
 
 
 async def safely_get_users(session: AsyncSession, limit: int, username: str = None, email: str = None) -> List[User]:
+    """
+    :param session: см. README.md ``Объекты``
+    :param limit: Integer значение, которое обозначает максимальное количество
+    возвращаемых пользователей
+    :param username: String значение имени пользователя
+    :param email: String значение электронного адреса пользователя
+    :return: Возвращает список объектов ``User``
+
+    Используется, чтобы осуществлять поиск пользователей по их ``username``, ``email``
+    """
     if (not username) and (not email):
         return []
 
