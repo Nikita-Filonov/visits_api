@@ -6,7 +6,7 @@ from users.emails.utils import send_email_async, random_string
 
 
 async def send_user_confirm_email(session: AsyncSession, user: User):
-    subject = f'[RQ Calculator] Your confirmation code'
+    subject = f'[Visits] Your confirmation code'
     code = await random_string()
     await user.update(session, user, confirmation_codes=[*user.confirmation_codes, code])
 

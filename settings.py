@@ -7,8 +7,8 @@ DEBUG = False
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'rq.calculator@gmail.com'
-EMAIL_HOST_PASSWORD = 'urtsswubwcaqmbjo'
+EMAIL_HOST_USER = 'lizikregister@gmail.com'
+EMAIL_HOST_PASSWORD = 'fzbuvxsddqjaytzm'
 
 HOST = 'https://mobile-visits-api.herokuapp.com'
 
